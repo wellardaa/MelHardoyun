@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MELVIA | PRIVATE & BOUND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: #030304;
+            color: #ececec;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, #1c0809 0%, #030304 85%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 7px;
+            background: linear-gradient(135deg, #d4af37, #aa7c11, #fff5c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .sub-brand {
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: #883333;
+            margin-top: 6px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+        }
+
+        /* SCREEN 1: NAMES FORM */
+        .card {
+            background: linear-gradient(145deg, #0e0a0a, #050303);
+            border: 1px solid #331111;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.95), 0 0 25px rgba(136, 19, 19, 0.15);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.6s ease-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            color: #d4af37;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .desc {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #140808;
+            border: 1px solid #441515;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3d0a0a, #801010);
+            border: 1px solid #aa1d1d;
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 16px 24px;
+            width: 100%;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(128, 16, 16, 0.4);
+            margin-top: 10px;
+        }
+
+        .btn:hover, .btn:active {
+            background: linear-gradient(135deg, #600c0c, #b31b1b);
+            box-shadow: 0 0 25px rgba(179, 27, 27, 0.7);
+            transform: translateY(-2px);
+        }
+
+        /* CONTRACT SCREEN */
+        .contract-box {
+            background: #090404;
+            border: 1px dashed #661818;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .contract-box p { margin-bottom: 10px; }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .checkbox-group input { accent-color: #aa1d1d; width: 18px; height: 18px; }
+        .checkbox-group span { font-size: 12px; color: #ddd; }
+
+        /* GAMEPLAY SCREEN */
+        .level-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+        }
+
+        .lvl-1 { background: rgba(212, 175, 55, 0.15); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.4); }
+        .lvl-2 { background: rgba(180, 50, 20, 0.2); color: #ff6b4a; border: 1px solid rgba(180, 50, 20, 0.5); }
+        .lvl-3 { background: rgba(180, 20, 30, 0.3); color: #ff3344; border: 1px solid rgba(220, 20, 30, 0.7); box-shadow: 0 0 15px rgba(255, 51, 68, 0.3); }
+
+        .question-box {
+            min-height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        .task-box {
+            background: rgba(20, 5, 5, 0.8);
+            border-left: 3px solid #d4af37;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #d4af37;
+            text-align: left;
+            margin-bottom: 25px;
+            font-style: italic;
+            line-height: 1.5;
+            transition: all 0.3s;
+        }
+
+        .lvl-3-task { border-left-color: #ff3344; color: #ff6677; }
+
+        .progress-bar {
+            height: 4px;
+            width: 100%;
+            background: #1a0808;
+            border-radius: 2px;
+            margin-top: 25px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d4af37, #ff3344);
+            transition: width 0.4s ease;
+        }
+
+        .counter {
+            margin-top: 12px;
+            font-size: 11px;
+            color: #666;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="brand">MELVIA</div>
+        <div class="sub-brand">Private & Bound • Interactive +18</div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            
+            <!-- STEP 1: NAMES -->
+            <div id="screen1" class="screen active">
+                <div class="title">MÜHÜR ÖNCESİ</div>
+                <div class="desc">Bu özel deneyim ikinizin arasındaki tutku ve sınırları yeniden yazmak için tasarlandı.</div>
+                
+                <div class="input-group">
+                    <label>SENİN ADIN (Dominant / Yöneten)</label>
+                    <input type="text" id="domName" placeholder="Örn: Ahmet" value="">
+                </div>
+                
+                <div class="input-group">
+                    <label>ONUN ADI (Partner)</label>
+                    <input type="text" id="subName" placeholder="Örn: Melis" value="">
+                </div>
+
+                <button class="btn" onclick="goToContract()">SÖZLEŞMEYE GEÇ</button>
+            </div>
+
+            <!-- STEP 2: CONTRACT -->
+            <div id="screen2" class="screen">
+                <div class="title">GİZLİ SÖZLEŞME</div>
+                <div class="desc">Devam etmeden önce aşağıdaki mühürü kabul etmelisiniz.</div>
+
+                <div class="contract-box">
+                    <p><strong>Madde 1:</strong> Bu sayfadaki tüm itiraflar, emirler ve görevler sadece odanın içinde ve iki kişi arasında kalacaktır.</p>
+                    <p><strong>Madde 2:</strong> Seviye ilerledikçe kontrol hakkı <span id="cDomName" style="color:#d4af37; font-weight:700;"></span> tarafına geçer. <span id="cSubName" style="color:#ff3344; font-weight:700;"></span> verilen emirlere itaat etmeyi kabul eder.</p>
+                    <p><strong>Madde 3:</strong> Reddetme hakkı yoktur; sadece cezasını çekme veya ödülünü alma seçeneği bulunur.</p>
+                </div>
+
+                <label class="checkbox-group">
+                    <input type="checkbox" id="acceptContract">
+                    <span>Mühürü kabul ediyor ve sınırları devrediyorum.</span>
+                </label>
+
+                <button class="btn" onclick="startGame()">MÜHÜRÜ ONAYLA & BAŞLAT</button>
+            </div>
+
+            <!-- STEP 3: GAMEPLAY -->
+            <div id="screen3" class="screen">
+                <div id="lvlBadge" class="level-badge lvl-1">SEVİYE 1: FLÖRT & ISINMA</div>
+
+                <div class="question-box">
+                    <div id="qText" class="q-text">Hazır mısınız?</div>
+                </div>
+
+                <div id="taskBox" class="task-box">
+                    Görev: İlk kartı çekmek için aşağıdaki butona basın.
+                </div>
+
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">KARTI ÇEK</button>
+
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div id="counterText" class="counter">0 / 15 KART</div>
+            </div>
+
+            <!-- STEP 4: END SCREEN -->
+            <div id="screen4" class="screen">
+                <div class="title" style="color:#ff3344; font-size:24px;">TAM TESLİMİYET</div>
+                <div class="desc" style="font-size:15px; margin-top:15px; color:#eee;">
+                    Bütün kartlar çekildi ve mühür tamamlandı.<br><br>
+                    Şimdi telefon ekranını kapatın ve kuralları gerçek dünyada uygulayın...
+                </div>
+                <button class="btn" onclick="location.reload()">YENİDEN BAŞLAT</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let dom = "Ahmet";
+        let sub = "Melis";
+        let currentIdx = -1;
+
+        function vibrate() {
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            vibrate();
+        }
+
+        function goToContract() {
+            const dInput = document.getElementById('domName').value.trim();
+            const sInput = document.getElementById('subName').value.trim();
+
+            if (dInput) dom = dInput;
+            if (sInput) sub = sInput;
+
+            document.getElementById('cDomName').innerText = dom;
+            document.getElementById('cSubName').innerText = sub;
+
+            showScreen('screen2');
+        }
+
+        function startGame() {
+            const accepted = document.getElementById('acceptContract').checked;
+            if (!accepted) {
+                alert("Devam etmek için mühürü ve sözleşmeyi kabul etmelisiniz.");
+                return;
+            }
+            showScreen('screen3');
+            nextQuestion();
+        }
+
+        function getQuestions() {
+            return [
+                // LEVEL 1: FLÖRT & ISINMA
+                {
+                    lvl: 1,
+                    badge: "SEVİYE 1: FLÖRT & ISINMA",
+                    cls: "lvl-1",
+                    q: `${sub}, ${dom}'in gözlerinin içine 15 saniye boyunca hiç kırpmadan bak. Aklından geçen ilk cüretkar şeyi söyle.`,
+                    task: `Görev: ${dom}, bu sırada ${sub}'in çenesini hafifçe tut ve bakışını bozmasına izin verme.`
+                },
+                {
+                    lvl: 1,
+                    badge: "SEVİYE 1: FLÖRT & ISINMA",
+                    cls: "lvl-1",
+                    q: `${dom}, ${sub}'in vücudunda dokunmaktan en çok tahrik olduğun o gizli bölge neresi?`,
+                    task: `Aksiyon: ${dom}, parmak ucunla o bölgeye sadece tek bir yavaş dokunuş yap.`
+                },
+                {
+                    lvl: 1,
+                    badge: "SEVİYE 1: FLÖRT & ISINMA",
+                    cls: "lvl-1",
+                    q: `${sub}, ${dom} seni aniden öptüğünde veya boynunu kavradığında vücudunda hissettiğin ilk sıcaklık nereye yayılıyor?`,
+                    task: `İtiraf Et: Kelimeleri saklamadan dürüstçe anlat.`
+                },
+                {
+                    lvl: 1,
+                    badge: "SEVİYE 1: FLÖRT & ISINMA",
+                    cls: "lvl-1",
+                    q: `İkimiz baş başayken ${dom}'in sana söylediği en kışkırtıcı, seni en çok titreten kelime neydi?`,
+                    task: `Görev: ${sub}, bu kelimeyi ${dom}'in kulağına fısılda.`
+                },
+                {
+                    lvl: 1,
+                    badge: "SEVİYE 1: FLÖRT & ISINMA",
+                    cls: "lvl-1",
+                    q: `${dom}, şu an ${sub}'in üzerindeki hangi kıyafeti veya parçayı ilk olarak çıkarmak istersin?`,
+                    task: `Aksiyon: Dokunarak göster ama henüz çıkarma...`
+                },
+
+                // LEVEL 2: TUTKU & KONTROL
+                {
+                    lvl: 2,
+                    badge: "SEVİYE 2: TUTKU & KONTROL",
+                    cls: "lvl-2",
+                    q: `${sub}, gözlerin bağlıyken ve ellerin arkada sabitlenmişken ${dom}'in sana ne yapmasını hayal edersin?`,
+                    task: `Ceza/Görev: ${sub}, gözlerini kapat ve ${dom} izin verene kadar açma.`
+                },
+                {
+                    lvl: 2,
+                    badge: "SEVİYE 2: TUTKU & KONTROL",
+                    cls: "lvl-2",
+                    q: `${dom}, ${sub}'i tamamen kendi kontrolün altına aldığın bir anda ona vereceğin ilk sert veya arzulu emir ne olurdu?`,
+                    task: `Emir: ${dom}, bu emri şimdi ver. ${sub} 'Emredersin' diyerek onaylamak zorunda.`
+                },
+                {
+                    lvl: 2,
+                    badge: "SEVİYE 2: TUTKU & KONTROL",
+                    cls: "lvl-2",
+                    q: `${sub}, hiç ${dom}'e 'Lütfen...' diye yalvarmak isteyeceğin kadar ileri gittiğiniz bir fantezi kurdun mu?`,
+                    task: `İtiraf Et: Fantezinin detayını anlat.`
+                },
+                {
+                    lvl: 2,
+                    badge: "SEVİYE 2: TUTKU & KONTROL",
+                    cls: "lvl-2",
+                    q: `${dom}, ${sub}'in teninde gezinen soğuk bir buz küpü mü, yoksa hafifçe ritmik temaslar mı onu daha çok çılgına çevirir?`,
+                    task: `Aksiyon: Hangisini seçiyorsan 30 saniye boyunca uygula.`
+                },
+                {
+                    lvl: 2,
+                    badge: "SEVİYE 2: TUTKU & KONTROL",
+                    cls: "lvl-2",
+                    q: `${sub}, ${dom} seni yatağa bağlasaydı ve sadece izlemene izin verseydi, ilk kaç dakikada teslim olurdun?`,
+                    task: `Aksiyon: ${dom}'in ellerini tutmasına izin ver ve kıpırdama.`
+                },
+
+                // LEVEL 3: BDSM & TAM TESLİMİYET
+                {
+                    lvl: 3,
+                    badge: "SEVİYE 3: BDSM & TAM TESLİMİYET",
+                    cls: "lvl-3",
+                    q: `${sub}, deriden yapılmış kelepçeler, ip mühürleri ve kontrolün tamamen ${dom}'de olduğu o anlar seni ne kadar tahrik ediyor?`,
+                    task: `BDSM Görevi: ${dom}, ${sub}'in bileklerini kavra ve dizlerinin üstüne çökmesini sağla.`
+                },
+                {
+                    lvl: 3,
+                    badge: "SEVİYE 3: BDSM & TAM TESLİMİYET",
+                    cls: "lvl-3",
+                    q: `${dom}, ${sub} bu gece yapacağın hiçbir şeye 'Hayır' diyemeseydi, ona uygulayacağın ilk BDSM veya ceza ritüeli ne olurdu?`,
+                    task: `Aksiyon: Detaylarıyla anlat ve hemen başla.`
+                },
+                {
+                    lvl: 3,
+                    badge: "SEVİYE 3: BDSM & TAM TESLİMİYET",
+                    cls: "lvl-3",
+                    q: `${sub}, ${dom}'in seni izlerken kendi üzerinde tam kontrol sağladığı ve sana 'Dokunma' dediği o anlardaki çaresizlik hissini seviyor musun?`,
+                    task: `Ceza: Sıradaki karta kadar ${dom}'e dokunman kesinlikle yasak.`
+                },
+                {
+                    lvl: 3,
+                    badge: "SEVİYE 3: BDSM & TAM TESLİMİYET",
+                    cls: "lvl-3",
+                    q: `İkiniz arasındaki en cüretkar, sınırları zorlayan BDSM arzusu hangisi?`,
+                    task: `Aksiyon: ${dom}, ${sub}'i kalçalarından kavra ve kulağına bu gece ne yapacağınızı fısılda.`
+                },
+                {
+                    lvl: 3,
+                    badge: "SEVİYE 3: BDSM & TAM TESLİMİYET",
+                    cls: "lvl-3",
+                    q: `Mühür tamamlanmak üzere. ${sub}, bu oyundan sonra kontrolün tamamen ${dom}'de olduğunu kabul ediyor musun?`,
+                    task: `Son Görev: ${sub}, ${dom}'in elini öp veya boynuna sarılarak teslimiyetini göster.`
+                }
+            ];
+        }
+
+        function nextQuestion() {
+            vibrate();
+            const questions = getQuestions();
+            currentIdx++;
+
+            if (currentIdx < questions.length) {
+                const item = questions[currentIdx];
+                const badgeEl = document.getElementById('lvlBadge');
+                const taskEl = document.getElementById('taskBox');
+
+                badgeEl.innerText = item.badge;
+                badgeEl.className = 'level-badge ' + item.cls;
+
+                document.getElementById('qText').innerText = item.q;
+                taskEl.innerText = item.task;
+
+                if (item.lvl === 3) {
+                    taskEl.classList.add('lvl-3-task');
+                } else {
+                    taskEl.classList.remove('lvl-3-task');
+                }
+
+                // Update Progress
+                const pct = ((currentIdx + 1) / questions.length) * 100;
+                document.getElementById('progressFill').style.width = pct + '%';
+                document.getElementById('counterText').innerText = (currentIdx + 1) + " / " + questions.length + " KART";
+                
+                document.getElementById('nextBtn').innerText = (currentIdx === questions.length - 1) ? "MÜHÜRÜ TAMAMLA" : "SIRADAKİ KART";
+            } else {
+                showScreen('screen4');
+            }
+        }
+    </script>
+</body>
+</html>
